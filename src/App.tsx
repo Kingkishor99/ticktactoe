@@ -16,7 +16,7 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>Get startedsdsssss</h1>
+          <h1>New Project</h1>
           <p>
             Editsasasas <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
