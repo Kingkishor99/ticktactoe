@@ -1,13 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useMemo, useState } from 'react'
 import './App.css'
 
+type Player = 'X' | 'O'
+type Cell = Player | ''
+
+const WINNING_LINES: Array<[number, number, number]> = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+]
+
+function calculateWinner(board: Cell[]): Player | null {
+  for (const [a, b, c] of WINNING_LINES) {
+    const v = board[a]
+    if (v && v === board[b] && v === board[c]) {
+      return v
+    }
+  }
+  return null
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [board, setBoard] = useState<Cell[]>(Array(9).fill(''))
+  const [xNext, setXNext] = useState(true)
+
+  const winner = useMemo(() => calculateWinner(board), [board])
+  const isDraw = !winner && board.every((cell) => cell !== '')
+  const status = winner
+    ? `Winner: ${winner}`
+    : isDraw
+      ? 'Draw'
+      : `Next player: ${xNext ? 'X' : 'O'}`
+
+  const makeMove = (index: number) => {
+    if (board[index] || winner) return
+    const nextPlayer: Player = xNext ? 'X' : 'O'
+    const nextBoard = [...board]
+    nextBoard[index] = nextPlayer
+    setBoard(nextBoard)
+    setXNext(!xNext)
+  }
+
+  const resetGame = () => {
+    setBoard(Array(9).fill(''))
+    setXNext(true)
+  }
 
   return (
+<<<<<<< HEAD
     <>
       <section id="center">
         <div className="hero">
@@ -28,93 +73,30 @@ function App() {
           Count is {count}
         </button>
       </section>
+=======
+    <main className="tictactoe">
+      <h1>Tic Tac Toe Game</h1>
+      <p className="status">{status}</p>
+>>>>>>> 83d4eb46802386d0ee2b3be667b0f7c402b30d2d
 
-      <div className="ticks"></div>
+      <div className="board" role="grid" aria-label="Tic Tac Toe board">
+        {board.map((cell, index) => (
+          <button
+            key={index}
+            className="square"
+            onClick={() => makeMove(index)}
+            disabled={!!cell || !!winner || isDraw}
+            aria-label={`Square ${index + 1}`}
+          >
+            {cell}
+          </button>
+        ))}
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <button className="reset" onClick={resetGame}>
+        Restart
+      </button>
+    </main>
   )
 }
 
