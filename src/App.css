@@ -167,7 +167,7 @@
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;
@@ -181,4 +181,63 @@
     right: 0;
     border-right-color: var(--border);
   }
+}
+
+.tictactoe {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+  color: var(--text-h);
+}
+
+.tictactoe h1 {
+  margin: 0;
+}
+
+.status {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(64px, 96px));
+  grid-template-rows: repeat(3, minmax(64px, 96px));
+  gap: 0.5rem;
+}
+
+.square {
+  width: 96px;
+  height: 96px;
+  font-size: 2rem;
+  font-weight: 700;
+  border: 2px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-h);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.square:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--accent-border);
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reset:hover {
+  filter: brightness(0.95);
 }
