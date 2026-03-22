@@ -53,7 +53,7 @@ function App() {
 
   return (
     <main className="tictactoe">
-      <h1>Tic Tac Toe Game</h1>
+      <h1>___Tic Tac Toe Game___</h1>
       <p className="status">{status}</p>
 
       <div className="board" role="grid" aria-label="Tic Tac Toe board">
